@@ -1,9 +1,9 @@
-"""Tune tab -- quad profile setup, PID comparison tables, CLI export.
+"""Tune tab -- airframe profile setup, PID comparison tables, CLI export.
 
 Three-column layout:
-1. Left: Quad profile dropdowns + Analyze button + confidence indicator
+1. Left: Airframe profile dropdowns + Analyze button + confidence indicator
 2. Center: PID values table + filter settings table (current vs suggested)
-3. Right: Betaflight CLI commands (terminal-style) + copy button
+3. Right: Flight controller CLI commands (Betaflight/Rotorflight) + copy button
 """
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ _STYLE_VALUES = ["freestyle", "race", "cinematic", "long_range"]
 
 
 class TuneTab(QWidget):
-    """Tune recommendation tab with quad profile, PID comparison, and CLI export."""
+    """Tune recommendation tab with airframe profile, PID comparison, and CLI export."""
 
     def __init__(self) -> None:
         super().__init__()
@@ -60,11 +60,11 @@ class TuneTab(QWidget):
         root.setContentsMargins(8, 8, 8, 8)
         root.setSpacing(12)
 
-        # ── Left column: Quad Profile Setup ───────────────────────
+        # ── Left column: Airframe Profile Setup ───────────────────
         left = QVBoxLayout()
         left.setSpacing(8)
 
-        profile_group = QGroupBox("Quad Profile")
+        profile_group = QGroupBox("Aircraft Profile")
         profile_layout = QVBoxLayout(profile_group)
         profile_layout.setSpacing(8)
 
@@ -76,7 +76,7 @@ class TuneTab(QWidget):
         profile_layout.addWidget(self._cell_combo)
 
         # Prop Size
-        profile_layout.addWidget(QLabel("Prop Size"))
+        profile_layout.addWidget(QLabel("Prop / Rotor Size"))
         self._prop_combo = QComboBox()
         self._prop_combo.addItems(_PROP_OPTIONS)
         self._prop_combo.setCurrentIndex(4)  # 5" default
@@ -180,7 +180,7 @@ class TuneTab(QWidget):
         right = QVBoxLayout()
         right.setSpacing(8)
 
-        cli_header = QLabel("Betaflight CLI Commands")
+        cli_header = QLabel("Betaflight / Rotorflight CLI Commands")
         cli_header.setObjectName("header")
         right.addWidget(cli_header)
 

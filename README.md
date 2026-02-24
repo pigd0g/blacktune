@@ -1,6 +1,6 @@
 # BlackTune
 
-Betaflight blackbox log analyzer with automatic PID and filter tuning recommendations.
+Betaflight / Rotorflight blackbox log analyzer with automatic PID and filter tuning recommendations for quadcopters and helicopters.
 
 Load a `.bbl`, `.bfl`, or `.csv` blackbox log, analyze gyro noise and step response, and get ready-to-paste CLI commands for your flight controller.
 
@@ -11,8 +11,8 @@ Load a `.bbl`, `.bfl`, or `.csv` blackbox log, analyze gyro noise and step respo
 - **Step Response** -- Wiener deconvolution with rise time, overshoot, settling time metrics
 - **Issue Detection** -- identifies P too high/low, D too high/low, I windup, noise floor, oscillation
 - **Motor Heat Estimation** -- estimates motor heating from high-frequency D-term energy
-- **Auto Tune** -- generates optimized PID and filter values based on your quad profile (cell count, prop size, frame size, flying style)
-- **CLI Export** -- copy-paste Betaflight CLI commands with one click
+- **Auto Tune** -- generates optimized PID and filter values based on your airframe profile (cell count, prop/rotor size, frame size, flying style)
+- **CLI Export** -- copy-paste Betaflight / Rotorflight CLI commands with one click
 - **Session History** -- tracks past analyses with timestamps
 
 ## Screenshot
@@ -53,15 +53,15 @@ Output: `dist/BlackTune.exe`
 2. Click **Open Log** or drag-and-drop a `.bbl` / `.bfl` / `.csv` file
 3. Browse the **Log Viewer** tab to inspect raw flight data
 4. Check the **Analysis** tab for noise spectrum, step response, detected issues, and motor heat
-5. Go to the **Tune** tab, set your quad profile (cell count, prop size, frame size, flying style)
+5. Go to the **Tune** tab, set your airframe profile (cell count, prop/rotor size, frame size, flying style)
 6. Click **Analyze & Tune** to generate optimized PID and filter values
-7. Copy the CLI commands and paste them into the Betaflight CLI
+7. Copy the CLI commands and paste them into the Betaflight / Rotorflight CLI
 
 ## Supported Log Formats
 
 | Format | Source | Parser |
 |--------|--------|--------|
-| `.bbl` / `.bfl` | Betaflight blackbox | [orangebox](https://github.com/thenickdude/orangebox) |
+| `.bbl` / `.bfl` | Betaflight / Rotorflight blackbox | [orangebox](https://github.com/thenickdude/orangebox) |
 | `.csv` | Betaflight blackbox_decode | pandas |
 
 ## How It Works
@@ -92,7 +92,7 @@ blacktune/
     main_window.py     # main window with 4 tabs
     viewer_tab.py      # log viewer with linked plots
     analysis_tab.py    # FFT, step response, issues, motor heat
-    tune_tab.py        # quad profile, PID/filter comparison, CLI export
+    tune_tab.py        # airframe profile, PID/filter comparison, CLI export
     history_tab.py     # session history table
     theme.py           # dark theme stylesheet
 tests/                 # 111 tests

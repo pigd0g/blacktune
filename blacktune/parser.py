@@ -144,6 +144,30 @@ def parse_headers(bbl_path: str) -> Dict[str, str]:
 
 
 # ---------------------------------------------------------------------------
+# Firmware extraction from headers
+# ---------------------------------------------------------------------------
+
+def firmware_from_headers(headers: Dict[str, str]) -> str:
+    """Return a firmware string from parsed headers.
+
+    Rotorflight BBLs include a ``Firmware type`` header (e.g., ``Rotorflight``)
+    in addition to ``Firmware revision``.  Preserve existing Betaflight logic
+    while detecting Rotorflight by combining the two when needed.
+    """
+    fw_type = headers.get("Firmware type", "").strip()
+    fw_rev = headers.get("Firmware revision", "").strip()
+
+    if fw_rev:
+        # Avoid duplicating the type if the revision already includes it.
+        if fw_type and fw_type.lower() not in fw_rev.lower():
+            return f"{fw_type} {fw_rev}".strip()
+        return fw_rev
+    if fw_type:
+        return fw_type
+    return "unknown"
+
+
+# ---------------------------------------------------------------------------
 # PID extraction from headers
 # ---------------------------------------------------------------------------
 
@@ -259,7 +283,7 @@ def load_bbl_orangebox(bbl_path: str) -> FlightLog:
 
     pids = pids_from_headers(raw_headers)
     filters = filters_from_headers(raw_headers)
-    firmware = raw_headers.get("Firmware revision", "unknown")
+    firmware = firmware_from_headers(raw_headers)
 
     # -- frame data --
     field_names = list(parser.field_names)

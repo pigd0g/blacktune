@@ -9,6 +9,7 @@ import pytest
 from blacktune.models import AxisData, FilterSettings, FlightLog, PIDValues
 from blacktune.parser import (
     filters_from_headers,
+    firmware_from_headers,
     load_log,
     parse_csv_log,
     parse_headers,
@@ -296,6 +297,26 @@ class TestParseHeaders:
         assert headers["rollPID"] == "45,80,30"
         assert headers["pitchPID"] == "47,84,34"
         assert headers["yawPID"] == "45,80,0"
+
+    def test_rotorflight_firmware_detection(self):
+        headers = {
+            "Firmware type": "Rotorflight",
+            "Firmware revision": "Rotorflight 4.5.0 (e77d192) STM32F405",
+        }
+
+        firmware = firmware_from_headers(headers)
+
+        assert firmware == "Rotorflight 4.5.0 (e77d192) STM32F405"
+
+    def test_firmware_type_prefixed_when_revision_missing_type(self):
+        headers = {
+            "Firmware type": "Rotorflight",
+            "Firmware revision": "4.5.0 (e77d192)",
+        }
+
+        firmware = firmware_from_headers(headers)
+
+        assert firmware == "Rotorflight 4.5.0 (e77d192)"
 
     def test_filter_headers(self, tmp_path):
         bbl_file = str(tmp_path / "test.bbl")
