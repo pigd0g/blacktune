@@ -153,6 +153,14 @@ def firmware_from_headers(headers: Dict[str, str]) -> str:
     Rotorflight BBLs include a ``Firmware type`` header (e.g., ``Rotorflight``)
     in addition to ``Firmware revision``.  Preserve existing Betaflight logic
     while detecting Rotorflight by combining the two when needed.
+
+    Examples
+    --------
+    - ``{\"Firmware revision\": \"Betaflight 4.4.0\"}`` -> ``\"Betaflight 4.4.0\"``
+    - ``{\"Firmware type\": \"Rotorflight\", \"Firmware revision\": \"Rotorflight 4.5.0 ...\"}``
+      -> ``\"Rotorflight 4.5.0 ...\"`` (type already present)
+    - ``{\"Firmware type\": \"Rotorflight\", \"Firmware revision\": \"4.5.0 ...\"}``
+      -> ``\"Rotorflight 4.5.0 ...\"`` (type prefixed)
     """
     fw_type = headers.get("Firmware type", "").strip()
     fw_rev = headers.get("Firmware revision", "").strip()
